@@ -92,7 +92,7 @@
             datosTabla1.AllowUserToAddRows = false;
             datosTabla1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             datosTabla1.Columns.AddRange(new DataGridViewColumn[] { x, Y });
-            datosTabla1.Location = new Point(38, 208);
+            datosTabla1.Location = new Point(39, 204);
             datosTabla1.Name = "datosTabla1";
             datosTabla1.Size = new Size(242, 232);
             datosTabla1.TabIndex = 11;
@@ -114,7 +114,7 @@
             textResultado1.Location = new Point(353, 128);
             textResultado1.Multiline = true;
             textResultado1.Name = "textResultado1";
-            textResultado1.Size = new Size(591, 416);
+            textResultado1.Size = new Size(338, 416);
             textResultado1.TabIndex = 12;
             // 
             // labelResultado
@@ -134,12 +134,13 @@
             botonPolinomioUnico.TabIndex = 14;
             botonPolinomioUnico.Text = "Ejecutar Metodo de Polinomio Unico";
             botonPolinomioUnico.UseVisualStyleBackColor = true;
+            botonPolinomioUnico.Click += botonPolinomioUnico_Click;
             // 
             // Form3
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(976, 570);
+            ClientSize = new Size(736, 570);
             Controls.Add(botonPolinomioUnico);
             Controls.Add(labelResultado);
             Controls.Add(textResultado1);
