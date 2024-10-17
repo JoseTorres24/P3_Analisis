@@ -1,4 +1,5 @@
-﻿namespace P3_Analisis
+﻿
+namespace P3_Analisis
 {
     partial class Form1
     {
@@ -41,6 +42,8 @@
             valorX = new TextBox();
             textResultado = new TextBox();
             labelResultado = new Label();
+            interpolacionLinealVentana = new Button();
+            polInterpolacionUnicoVentana = new Button();
             ((System.ComponentModel.ISupportInitialize)datosTabla).BeginInit();
             SuspendLayout();
             // 
@@ -72,6 +75,7 @@
             label2.Size = new Size(167, 20);
             label2.TabIndex = 2;
             label2.Text = "Metodos de Interpolacion";
+            label2.Click += this.label2_Click;
             // 
             // botonDiferencias
             // 
@@ -131,6 +135,7 @@
             LabelIngresar.Size = new Size(106, 15);
             LabelIngresar.TabIndex = 7;
             LabelIngresar.Text = "Ingresar valor de x:";
+            LabelIngresar.Click += LabelIngresar_Click;
             // 
             // valorX
             // 
@@ -143,7 +148,7 @@
             // textResultado
             // 
             textResultado.Enabled = false;
-            textResultado.Font = new Font("Arial", 6.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            textResultado.Font = new Font("Arial", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             textResultado.Location = new Point(263, 159);
             textResultado.Multiline = true;
             textResultado.Name = "textResultado";
@@ -159,11 +164,33 @@
             labelResultado.TabIndex = 10;
             labelResultado.Text = "Resultado";
             // 
+            // interpolacionLinealVentana
+            // 
+            interpolacionLinealVentana.Location = new Point(299, 74);
+            interpolacionLinealVentana.Name = "interpolacionLinealVentana";
+            interpolacionLinealVentana.Size = new Size(181, 30);
+            interpolacionLinealVentana.TabIndex = 11;
+            interpolacionLinealVentana.Text = "Ir a Interpolacion lineal";
+            interpolacionLinealVentana.UseVisualStyleBackColor = true;
+            interpolacionLinealVentana.Click += interpolacionLinealVentana_Click;
+            // 
+            // polInterpolacionUnicoVentana
+            // 
+            polInterpolacionUnicoVentana.Location = new Point(275, 74);
+            polInterpolacionUnicoVentana.Name = "polInterpolacionUnicoVentana";
+            polInterpolacionUnicoVentana.Size = new Size(243, 30);
+            polInterpolacionUnicoVentana.TabIndex = 12;
+            polInterpolacionUnicoVentana.Text = "Ir a Polinomio de Interpolacion Unico";
+            polInterpolacionUnicoVentana.UseVisualStyleBackColor = true;
+            polInterpolacionUnicoVentana.Click += polInterpolacionUnicoVentana_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(831, 488);
+            ClientSize = new Size(842, 522);
+            Controls.Add(polInterpolacionUnicoVentana);
+            Controls.Add(interpolacionLinealVentana);
             Controls.Add(labelResultado);
             Controls.Add(textResultado);
             Controls.Add(valorX);
@@ -183,6 +210,11 @@
             PerformLayout();
         }
 
+        private void label2_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         private ComboBox boxMetodos;
@@ -198,5 +230,7 @@
         private TextBox valorX;
         private TextBox textResultado;
         private Label labelResultado;
+        private Button interpolacionLinealVentana;
+        private Button polInterpolacionUnicoVentana;
     }
 }

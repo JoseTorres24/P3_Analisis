@@ -16,6 +16,9 @@ namespace P3_Analisis
             LabelIngresar.Hide();
             labelResultado.Hide();
             textResultado.Hide();
+            //Botones de conexion de ventanas
+            interpolacionLinealVentana.Hide(); //Forms 2
+            polInterpolacionUnicoVentana.Hide();// Forms 3
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -51,30 +54,51 @@ namespace P3_Analisis
 
         private void boxMetodos_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (boxMetodos.SelectedItem != null &&
-                boxMetodos.SelectedItem.ToString() == "Diferencias Divididas de Newton")
+            if (boxMetodos.SelectedItem == null)
+                return;
+
+            string metodoSeleccionado = boxMetodos.SelectedItem.ToString();
+
+            // Ocultar todos los controles inicialmente
+            datosTabla.Hide();
+            comboCantidad.Hide();
+            botonDiferencias.Hide();
+            tamañoTxt.Hide();
+            valorX.Hide();
+            LabelIngresar.Hide();
+            labelResultado.Hide();
+            textResultado.Hide();
+            polInterpolacionUnicoVentana.Hide();
+            interpolacionLinealVentana.Hide();
+
+            // Mostrar los controles relevantes según la opción seleccionada
+            switch (metodoSeleccionado)
             {
-                datosTabla.Show();
-                comboCantidad.Show();
-                botonDiferencias.Show();
-                tamañoTxt.Show();
-                valorX.Show();
-                LabelIngresar.Show();
-                labelResultado.Show();
-                textResultado.Show();
-            }
-            else
-            {
-                datosTabla.Hide();
-                comboCantidad.Hide();
-                botonDiferencias.Hide();
-                tamañoTxt.Hide();
-                valorX.Hide();
-                LabelIngresar.Hide();
-                labelResultado.Hide();
-                textResultado.Hide();
+                case "Diferencias Divididas de Newton":
+                    datosTabla.Show();
+                    comboCantidad.Show();
+                    botonDiferencias.Show();
+                    tamañoTxt.Show();
+                    valorX.Show();
+                    LabelIngresar.Show();
+                    labelResultado.Show();
+                    textResultado.Show();
+                    break;
+
+                case "Interpolacion Lineal":
+                    interpolacionLinealVentana.Show(); // Mostrar botón o ventana de Interpolación Lineal
+                    break;
+
+                case "Polinomio de Interpolacion Unico":
+                    polInterpolacionUnicoVentana.Show(); // Mostrar botón o ventana del Polinomio de Interpolación Único
+                    break;
+
+                default:
+                    // Si se selecciona algo fuera de las opciones conocidas, oculta todo (seguridad).
+                    break;
             }
         }
+
 
         private void valorX_TextChanged(object sender, EventArgs e)
         {
@@ -211,6 +235,23 @@ namespace P3_Analisis
             return ecuacionesIntermedias.ToString() + "\n" + polinomio.ToString();
         }
 
+        private void interpolacionLinealVentana_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.ShowDialog(); // Mostrar Form2
 
+        }
+
+        private void polInterpolacionUnicoVentana_Click(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+            form3.ShowDialog(); // Mostrar Form3
+
+        }
+
+        private void LabelIngresar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
