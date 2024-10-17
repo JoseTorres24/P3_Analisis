@@ -45,6 +45,7 @@ namespace P3_Analisis
             if (int.TryParse(comboCantidad.SelectedItem.ToString(), out int cantidad))
             {
                 datosTabla.Rows.Clear();
+                textResultado.Clear();
                 for (int i = 0; i < cantidad; i++)
                 {
                     datosTabla.Rows.Add(""); // Agregamos una fila vacía  
