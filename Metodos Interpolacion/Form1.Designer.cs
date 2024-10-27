@@ -29,8 +29,6 @@ namespace P3_Analisis
         /// </summary>
         private void InitializeComponent()
         {
-            boxMetodos = new ComboBox();
-            label1 = new Label();
             label2 = new Label();
             botonDiferencias = new Button();
             datosTabla = new DataGridView();
@@ -42,29 +40,8 @@ namespace P3_Analisis
             valorX = new TextBox();
             textResultado = new TextBox();
             labelResultado = new Label();
-            interpolacionLinealVentana = new Button();
-            polInterpolacionUnicoVentana = new Button();
             ((System.ComponentModel.ISupportInitialize)datosTabla).BeginInit();
             SuspendLayout();
-            // 
-            // boxMetodos
-            // 
-            boxMetodos.DropDownStyle = ComboBoxStyle.DropDownList;
-            boxMetodos.FormattingEnabled = true;
-            boxMetodos.Location = new Point(12, 81);
-            boxMetodos.Name = "boxMetodos";
-            boxMetodos.Size = new Size(240, 23);
-            boxMetodos.TabIndex = 0;
-            boxMetodos.SelectedIndexChanged += boxMetodos_SelectedIndexChanged;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(82, 63);
-            label1.Name = "label1";
-            label1.Size = new Size(108, 15);
-            label1.TabIndex = 1;
-            label1.Text = "Seleccione Metodo";
             // 
             // label2
             // 
@@ -75,7 +52,7 @@ namespace P3_Analisis
             label2.Size = new Size(167, 20);
             label2.TabIndex = 2;
             label2.Text = "Metodos de Interpolacion";
-            label2.Click += this.label2_Click;
+            label2.Click += label2_Click;
             // 
             // botonDiferencias
             // 
@@ -164,33 +141,11 @@ namespace P3_Analisis
             labelResultado.TabIndex = 10;
             labelResultado.Text = "Resultado";
             // 
-            // interpolacionLinealVentana
-            // 
-            interpolacionLinealVentana.Location = new Point(299, 74);
-            interpolacionLinealVentana.Name = "interpolacionLinealVentana";
-            interpolacionLinealVentana.Size = new Size(181, 30);
-            interpolacionLinealVentana.TabIndex = 11;
-            interpolacionLinealVentana.Text = "Ir a Interpolacion lineal";
-            interpolacionLinealVentana.UseVisualStyleBackColor = true;
-            interpolacionLinealVentana.Click += interpolacionLinealVentana_Click;
-            // 
-            // polInterpolacionUnicoVentana
-            // 
-            polInterpolacionUnicoVentana.Location = new Point(275, 74);
-            polInterpolacionUnicoVentana.Name = "polInterpolacionUnicoVentana";
-            polInterpolacionUnicoVentana.Size = new Size(243, 30);
-            polInterpolacionUnicoVentana.TabIndex = 12;
-            polInterpolacionUnicoVentana.Text = "Ir a Polinomio de Interpolacion Unico";
-            polInterpolacionUnicoVentana.UseVisualStyleBackColor = true;
-            polInterpolacionUnicoVentana.Click += polInterpolacionUnicoVentana_Click;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(842, 522);
-            Controls.Add(polInterpolacionUnicoVentana);
-            Controls.Add(interpolacionLinealVentana);
             Controls.Add(labelResultado);
             Controls.Add(textResultado);
             Controls.Add(valorX);
@@ -200,8 +155,6 @@ namespace P3_Analisis
             Controls.Add(datosTabla);
             Controls.Add(botonDiferencias);
             Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(boxMetodos);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -215,10 +168,7 @@ namespace P3_Analisis
             throw new NotImplementedException();
         }
 
-        #endregion
-
-        private ComboBox boxMetodos;
-        private Label label1;
+#endregion
         private Label label2;
         private Button botonDiferencias;
         private DataGridView datosTabla;
@@ -230,7 +180,5 @@ namespace P3_Analisis
         private TextBox valorX;
         private TextBox textResultado;
         private Label labelResultado;
-        private Button interpolacionLinealVentana;
-        private Button polInterpolacionUnicoVentana;
     }
 }

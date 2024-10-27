@@ -8,24 +8,12 @@ namespace P3_Analisis
         public Form1()
         {
             InitializeComponent();
-            datosTabla.Hide();
-            comboCantidad.Hide();
-            botonDiferencias.Hide();
-            tamañoTxt.Hide();
-            valorX.Hide();
-            LabelIngresar.Hide();
-            labelResultado.Hide();
-            textResultado.Hide();
-            //Botones de conexion de ventanas
-            interpolacionLinealVentana.Hide(); //Forms 2
-            polInterpolacionUnicoVentana.Hide();// Forms 3
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            boxMetodos.Items.Add("Diferencias Divididas de Newton");
-            boxMetodos.Items.Add("Polinomio de Interpolacion Unico");
-            boxMetodos.Items.Add("Interpolacion Lineal");
+
             comboCantidad.Items.Add("1");
             comboCantidad.Items.Add("2");
             comboCantidad.Items.Add("3");
@@ -52,54 +40,6 @@ namespace P3_Analisis
                 }
             }
         }
-
-        private void boxMetodos_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (boxMetodos.SelectedItem == null)
-                return;
-
-            string metodoSeleccionado = boxMetodos.SelectedItem.ToString();
-
-            // Ocultar todos los controles inicialmente
-            datosTabla.Hide();
-            comboCantidad.Hide();
-            botonDiferencias.Hide();
-            tamañoTxt.Hide();
-            valorX.Hide();
-            LabelIngresar.Hide();
-            labelResultado.Hide();
-            textResultado.Hide();
-            polInterpolacionUnicoVentana.Hide();
-            interpolacionLinealVentana.Hide();
-
-            // Mostrar los controles relevantes según la opción seleccionada
-            switch (metodoSeleccionado)
-            {
-                case "Diferencias Divididas de Newton":
-                    datosTabla.Show();
-                    comboCantidad.Show();
-                    botonDiferencias.Show();
-                    tamañoTxt.Show();
-                    valorX.Show();
-                    LabelIngresar.Show();
-                    labelResultado.Show();
-                    textResultado.Show();
-                    break;
-
-                case "Interpolacion Lineal":
-                    interpolacionLinealVentana.Show(); // Mostrar botón o ventana de Interpolación Lineal
-                    break;
-
-                case "Polinomio de Interpolacion Unico":
-                    polInterpolacionUnicoVentana.Show(); // Mostrar botón o ventana del Polinomio de Interpolación Único
-                    break;
-
-                default:
-                    // Si se selecciona algo fuera de las opciones conocidas, oculta todo (seguridad).
-                    break;
-            }
-        }
-
 
         private void valorX_TextChanged(object sender, EventArgs e)
         {
