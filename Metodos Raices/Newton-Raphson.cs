@@ -42,7 +42,24 @@ namespace P3_Analisis
             }
 
             textResultados.Clear();
-            double resultado = NewtonRaphsonClasico(funcion, valorInicial);
+            double resultado;
+
+            // Elegir el método según la selección del usuario
+            switch (comboMetodos.SelectedItem.ToString())
+            {
+                case "Newton-Raphson Clasico":
+                    resultado = NewtonRaphsonClasico(funcion, valorInicial);
+                    break;
+                case "Newton-Raphson Relajado":
+                    resultado = NewtonRaphsonRelajado(funcion, valorInicial, 0.5); // Puedes ajustar el valor de lambda
+                    break;
+                case "Newton-Raphson Mejorado":
+                    resultado = NewtonRaphsonMejorado(funcion, valorInicial);
+                    break;
+                default:
+                    MessageBox.Show("Seleccione un método.");
+                    return;
+            }
 
             textResultados.AppendText(double.IsNaN(resultado) ? "No se encontró una raíz." : $"Resultado final: {resultado}\n");
         }
@@ -110,6 +127,96 @@ namespace P3_Analisis
             return double.NaN;
         }
 
+        public double NewtonRaphsonRelajado(string funcExpr, double initialGuess, double lambda = 0.5, double tol = 1e-6, int maxIter = 1000)
+        {
+            double currentGuess = initialGuess;
+            int iter = 0;
+            StringBuilder resultBuilder = new StringBuilder();
+
+            resultBuilder.AppendLine("Método Newton-Raphson (Relajado):");
+            resultBuilder.AppendLine($"Función: {funcExpr}");
+            resultBuilder.AppendLine($"Valor inicial: {initialGuess}");
+            resultBuilder.AppendLine($"Factor de relajación (λ): {lambda}");
+            resultBuilder.AppendLine("Iteraciones:");
+
+            while (iter < maxIter)
+            {
+                double fValue = EvaluateFunction(funcExpr, currentGuess);
+                double fPrimeValue = DerivadaNumerica(funcExpr, currentGuess);
+
+                if (double.IsNaN(fValue) || double.IsInfinity(fValue) || double.IsNaN(fPrimeValue) || double.IsInfinity(fPrimeValue))
+                {
+                    resultBuilder.AppendLine($"Error en la iteración {iter + 1}. Función o derivada indefinida.");
+                    textResultados.AppendText(resultBuilder.ToString());
+                    return double.NaN;
+                }
+
+                double nextGuess = currentGuess - lambda * (fValue / fPrimeValue);
+                double error = Math.Abs(nextGuess - currentGuess);
+
+                resultBuilder.AppendLine($"Iteración {iter + 1}: Aproximación = {nextGuess}, Error = {error}");
+
+                if (Math.Abs(fValue) < tol || error < tol)
+                {
+                    resultBuilder.AppendLine($"Raíz encontrada: {nextGuess}");
+                    textResultados.AppendText(resultBuilder.ToString());
+                    return nextGuess;
+                }
+
+                currentGuess = nextGuess;
+                iter++;
+            }
+
+            resultBuilder.AppendLine("Máximo de iteraciones alcanzado sin encontrar una raíz.");
+            textResultados.AppendText(resultBuilder.ToString());
+            return double.NaN;
+        }
+
+        public double NewtonRaphsonMejorado(string funcExpr, double initialGuess, double tol = 1e-6, int maxIter = 1000)
+        {
+            double currentGuess = initialGuess;
+            int iter = 0;
+            StringBuilder resultBuilder = new StringBuilder();
+
+            resultBuilder.AppendLine("Método Newton-Raphson (Mejorado):");
+            resultBuilder.AppendLine($"Función: {funcExpr}");
+            resultBuilder.AppendLine($"Valor inicial: {initialGuess}");
+            resultBuilder.AppendLine("Iteraciones:");
+
+            while (iter < maxIter)
+            {
+                double fValue = EvaluateFunction(funcExpr, currentGuess);
+                double fPrimeValue = DerivadaNumerica(funcExpr, currentGuess);
+                double fDoublePrimeValue = DerivadaNumerica(EvaluateDerivative(funcExpr), currentGuess); // Segunda derivada
+
+                if (double.IsNaN(fValue) || double.IsInfinity(fValue) || double.IsNaN(fPrimeValue) || double.IsInfinity(fPrimeValue))
+                {
+                    resultBuilder.AppendLine($"Error en la iteración {iter + 1}. Función o derivada indefinida.");
+                    textResultados.AppendText(resultBuilder.ToString());
+                    return double.NaN;
+                }
+
+                double correctionFactor = 1 - (fValue * fDoublePrimeValue) / (2 * fPrimeValue * fPrimeValue);
+                double nextGuess = currentGuess - correctionFactor * (fValue / fPrimeValue);
+                double error = Math.Abs(nextGuess - currentGuess);
+
+                resultBuilder.AppendLine($"Iteración {iter + 1}: Aproximación = {nextGuess}, Error = {error}");
+
+                if (Math.Abs(fValue) < tol || error < tol)
+                {
+                    resultBuilder.AppendLine($"Raíz encontrada: {nextGuess}");
+                    textResultados.AppendText(resultBuilder.ToString());
+                    return nextGuess;
+                }
+
+                currentGuess = nextGuess;
+                iter++;
+            }
+
+            resultBuilder.AppendLine("Máximo de iteraciones alcanzado sin encontrar una raíz.");
+            textResultados.AppendText(resultBuilder.ToString());
+            return double.NaN;
+        }
 
         private double DerivadaNumerica(string funcExpr, double x, double h = 1e-5)
         {
@@ -143,8 +250,14 @@ namespace P3_Analisis
 
         private bool IsValidFunction(string funcExpr)
         {
-            var validPattern = @"^[0-9+\-*/().^ex ln]+$"; // Permite e y ln en las funciones // y tambien deberia permitir
+            var validPattern = @"^[0-9+\-*/().^ex ln sin cos tan]+$";
             return Regex.IsMatch(funcExpr, validPattern) && funcExpr.Contains("x");
+        }
+
+        private string EvaluateDerivative(string funcExpr)
+        {
+            var expr = Expr.Parse(funcExpr);
+            return expr.Differentiate("x").ToString();
         }
 
         private void textValorInicial_KeyPress(object sender, KeyPressEventArgs e)
