@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -10,9 +11,15 @@ namespace P3_Analisis
 {
     public partial class Newton_Raphson : Form
     {
+        // Listas para almacenar los valores de las aproximaciones
+        private List<double> xValues = new List<double>();
+        private List<double> yValues = new List<double>();
+
         public Newton_Raphson()
         {
             InitializeComponent();
+            // Suscribirse al evento Paint del panel
+            panelGrafica.Paint += new PaintEventHandler(panelGrafico_Paint);
         }
 
         private void Newton_Raphson_Load(object sender, EventArgs e)
@@ -21,9 +28,10 @@ namespace P3_Analisis
             comboMetodos.Items.Add("Newton-Raphson Relajado");
             comboMetodos.Items.Add("Newton-Raphson Mejorado");
         }
-
-        private void comboMetodos_SelectedIndexChanged(object sender, EventArgs e) { }
-
+        private void comboMetodos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //No eliminar
+        }
         private void buttonCalcular_Click(object sender, EventArgs e)
         {
             // Validar valor inicial
@@ -42,6 +50,9 @@ namespace P3_Analisis
             }
 
             textResultados.Clear();
+            xValues.Clear(); // Limpiar los valores de x antes de cada cálculo
+            yValues.Clear(); // Limpiar los valores de y antes de cada cálculo
+
             double resultado;
 
             // Elegir el método según la selección del usuario
@@ -62,6 +73,54 @@ namespace P3_Analisis
             }
 
             textResultados.AppendText(double.IsNaN(resultado) ? "No se encontró una raíz." : $"Resultado final: {resultado}\n");
+            panelGrafica.Invalidate(); // Forzar redibujado del gráfico
+        }
+
+        private void panelGrafico_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            DrawGraph(g);
+        }
+
+        private void DrawGraph(Graphics g)
+        {
+            if (xValues.Count == 0 || yValues.Count == 0)
+            {
+                return; // No hay datos para graficar, simplemente no dibujamos nada
+            }
+
+            // Configurar el área del gráfico
+            int margin = 30;
+            int width = panelGrafica.Width - 2 * margin;
+            int height = panelGrafica.Height - 2 * margin;
+
+            // Definir los límites del gráfico
+            double xMin = Math.Min(0, xValues.Min());
+            double xMax = xValues.Max();
+            double yMin = Math.Min(0, yValues.Min());
+            double yMax = yValues.Max();
+
+            // Ajustar límites si son iguales
+            if (xMin == xMax) xMax += 1; // Aumentar para evitar problemas en el gráfico
+            if (yMin == yMax) yMax += 1; // Aumentar para evitar problemas en el gráfico
+
+            // Dibujar los ejes
+            g.DrawLine(Pens.Black, margin, margin + height, margin + width, margin + height); // Eje X
+            g.DrawLine(Pens.Black, margin, margin + height, margin, margin); // Eje Y
+
+            // Dibujar los puntos y las líneas entre ellos
+            for (int i = 0; i < xValues.Count; i++)
+            {
+                float x = margin + (float)((xValues[i] - xMin) / (xMax - xMin) * width);
+                float y = margin + height - (float)((yValues[i] - yMin) / (yMax - yMin) * height);
+                g.FillEllipse(Brushes.Blue, x - 2, y - 2, 4, 4);
+                if (i > 0)
+                {
+                    float prevX = margin + (float)((xValues[i - 1] - xMin) / (xMax - xMin) * width);
+                    float prevY = margin + height - (float)((yValues[i - 1] - yMin) / (yMax - yMin) * height);
+                    g.DrawLine(Pens.Blue, prevX, prevY, x, y);
+                }
+            }
         }
 
         public double NewtonRaphsonClasico(string funcExpr, double initialGuess, double tol = 1e-6, int maxIter = 1000)
@@ -108,11 +167,16 @@ namespace P3_Analisis
                 resultBuilder.AppendLine($"   f'(x) = {fPrimeValue}");
                 resultBuilder.AppendLine($"   Error = {error}");
 
+                // Agregar los valores para la gráfica
+                xValues.Add(iter + 1);
+                yValues.Add(nextGuess);
+
                 // Verificar condiciones de tolerancia
                 if (Math.Abs(fValue) < tol || error < tol)
                 {
                     resultBuilder.AppendLine($"Raíz encontrada: {nextGuess}");
                     textResultados.AppendText(resultBuilder.ToString());
+                    panelGrafica.Invalidate(); // Forzar redibujado
                     return nextGuess;
                 }
 
@@ -156,10 +220,15 @@ namespace P3_Analisis
 
                 resultBuilder.AppendLine($"Iteración {iter + 1}: Aproximación = {nextGuess}, Error = {error}");
 
+                // Agregar los valores para la gráfica
+                xValues.Add(iter + 1);
+                yValues.Add(nextGuess);
+
                 if (Math.Abs(fValue) < tol || error < tol)
                 {
                     resultBuilder.AppendLine($"Raíz encontrada: {nextGuess}");
                     textResultados.AppendText(resultBuilder.ToString());
+                    panelGrafica.Invalidate(); // Forzar redibujado
                     return nextGuess;
                 }
 
@@ -202,10 +271,15 @@ namespace P3_Analisis
 
                 resultBuilder.AppendLine($"Iteración {iter + 1}: Aproximación = {nextGuess}, Error = {error}");
 
+                // Agregar los valores para la gráfica
+                xValues.Add(iter + 1);
+                yValues.Add(nextGuess);
+
                 if (Math.Abs(fValue) < tol || error < tol)
                 {
                     resultBuilder.AppendLine($"Raíz encontrada: {nextGuess}");
                     textResultados.AppendText(resultBuilder.ToString());
+                    panelGrafica.Invalidate(); // Forzar redibujado
                     return nextGuess;
                 }
 
@@ -271,10 +345,12 @@ namespace P3_Analisis
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
-            textResultados.Text = "";
-            textFuncion.Text = "";
-            textValorInicial.Text = "";
+            textResultados.Clear();
+            textFuncion.Clear();
+            textValorInicial.Clear();
+            xValues.Clear(); // Limpiar valores de x
+            yValues.Clear(); // Limpiar valores de y
+            panelGrafica.Invalidate(); // Forzar redibujado
         }
     }
 }
-

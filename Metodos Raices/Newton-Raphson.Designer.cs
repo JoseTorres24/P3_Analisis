@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace P3_Analisis
 {
     partial class Newton_Raphson
@@ -38,6 +39,7 @@ namespace P3_Analisis
             buttonLimpiar = new Button();
             comboMetodos = new ComboBox();
             textResultados = new TextBox();
+            panelGrafica = new Panel();
             SuspendLayout();
             // 
             // label1
@@ -123,11 +125,19 @@ namespace P3_Analisis
             textResultados.Size = new Size(673, 398);
             textResultados.TabIndex = 7;
             // 
+            // panelGrafica
+            // 
+            panelGrafica.Location = new Point(816, 69);
+            panelGrafica.Name = "panelGrafica";
+            panelGrafica.Size = new Size(398, 361);
+            panelGrafica.TabIndex = 8;
+            // 
             // Newton_Raphson
             // 
             AutoScaleDimensions = new SizeF(10F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1383, 649);
+            Controls.Add(panelGrafica);
             Controls.Add(textResultados);
             Controls.Add(comboMetodos);
             Controls.Add(buttonLimpiar);
@@ -149,6 +159,8 @@ namespace P3_Analisis
 
 
 
+
+
         #endregion
 
         private Label label1;
@@ -159,5 +171,6 @@ namespace P3_Analisis
         private Button buttonLimpiar;
         private ComboBox comboMetodos;
         private TextBox textResultados;
+        private Panel panelGrafica;
     }
 }
