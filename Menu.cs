@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.ApplicationServices;
+
+
+
 
 namespace P3_Analisis
 {
@@ -67,8 +71,13 @@ namespace P3_Analisis
 
         private void comboRaices_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Newton_Raphson ventana1= new Newton_Raphson();
-            ventana1.ShowDialog();
+            string metodoSeleccionado = comboRaices.SelectedItem?.ToString();
+
+            if (metodoSeleccionado == "Newton-Raphson Metodos")
+            {
+                Newton_Raphson ventana = new Newton_Raphson();
+                ventana.ShowDialog();
+            }
         }
 
         private void comboEcuaciones_SelectedIndexChanged(object sender, EventArgs e)
