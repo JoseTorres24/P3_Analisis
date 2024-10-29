@@ -12,7 +12,6 @@
     <PackageReference Include="MathNet.Symbolics" Version="0.25.0" />
     <PackageReference Include="Python.Runtime" Version="2.7.9" />
     <PackageReference Include="pythonnet" Version="3.0.4" />
-    <PackageReference Include="ZedGraphlibrary" Version="5.1.5.24776" />
   </ItemGroup>
 
   <ItemGroup>
