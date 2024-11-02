@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -82,8 +83,51 @@ namespace P3_Analisis
 
         private void comboEcuaciones_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GaussMatrices ventana2 = new GaussMatrices();
-            ventana2.ShowDialog();
+            string metodoSeleccionado = comboEcuaciones.SelectedItem.ToString();
+            if (metodoSeleccionado == "Gauss-Jordan Ecuaciones")
+            {
+                // Aquí construimos la ruta al ejecutable de manera relativa
+                string executablePath = GetExecutablePath("GaussJordan.exe");
+
+                // Mostrar la ruta generada para verificar
+                MessageBox.Show($"Ruta generada: {executablePath}", "Ruta de Ejecución");
+
+                if (File.Exists(executablePath))
+                {
+                    try
+                    {
+                        // Mostrar mensaje de confirmación antes de ejecutar
+                        MessageBox.Show("Archivo encontrado. Intentando ejecutar...");
+
+                        using (Process process = new Process())
+                        {
+                            process.StartInfo.FileName = executablePath;
+                            process.StartInfo.UseShellExecute = true; // Cambiar a true si UseShellExecute=false no funciona
+                            process.StartInfo.CreateNoWindow = false;  // Cambia a false para ver la ventana si es necesario
+                            process.Start();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al ejecutar el programa: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show($"El archivo GaussJordan.exe no se encuentra en la ruta especificada:\n\n{executablePath}",
+                                    "Archivo no encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
         }
+
+        // Método para obtener la ruta completa del archivo .exe de manera relativa
+        private string GetExecutablePath(string executableName)
+        {
+            // Usar el directorio base de la aplicación
+            string basePath = AppDomain.CurrentDomain.BaseDirectory; // Esto apunta a la carpeta bin de tu proyecto
+            return Path.Combine(basePath, executableName); // Combina el directorio base con el nombre del ejecutable
+        }
+
+
     }
 }
